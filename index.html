@@ -107,6 +107,34 @@
             <p class="text-gray-700 max-w-2xl mx-auto mb-6">欢迎在哔哩哔哩、小红书、LOFTER以及抖音（还未注册）上关注我，获取更多汉化内容！</p>
         </div>
         
+<!-- 页面中央的联系我按钮 -->
+<div class="w-full flex justify-center my-8">
+  <button id="contact-button" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105 flex items-center">
+    <i class="fas fa-address-book mr-2"></i>
+    联系我
+  </button>
+</div>
+
+<!-- 添加平滑滚动的JavaScript代码 -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const contactButton = document.getElementById('contact-button');
+    
+    contactButton.addEventListener('click', function() {
+      // 通过特定的选择器找到"我的其他平台账号"部分
+      const platformsSection = document.querySelector('div[style="background-color: #f8f8f8;"]');
+      if (platformsSection) {
+        platformsSection.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'start'
+        });
+      } else {
+        console.error('未找到联系区域');
+      }
+    });
+  });
+</script>
+
         <!-- 关于我 -->
         <div class="mb-12 animate-fadein delay-1">
             <h2 class="text-2xl font-bold mb-6 text-gray-900 flex items-center">
@@ -173,18 +201,81 @@
 </head>
 <body class="bg-gray-50 min-h-screen py-8 px-4 sm:px-6 lg:px-8">
     <div class="max-w-4xl mx-auto">
-        <!-- 游戏合集标题 -->
-        <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold text-gray-900">简中游戏合集</h1>
-            <div class="flex space-x-2">
-                <button class="p-2 rounded-full bg-gray-200 text-gray-700">
-                    <i class="fas fa-th"></i>
-                </button>
-                <button class="p-2 rounded-full bg-gray-200 text-gray-700">
-                    <i class="fas fa-list"></i>
-                </button>
-            </div>
+<div class="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+    <h1 class="text-2xl font-bold text-gray-900">简中游戏合集</h1>
+    <div class="relative w-full sm:w-64">
+        <input 
+            id="game-search"
+            type="text" 
+            placeholder="搜索游戏..." 
+            class="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+        <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+            <i class="fas fa-search"></i>
         </div>
+    </div>
+</div>
+
+<!-- 游戏列表容器 -->
+<div id="games-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+</div>
+
+<!-- 无搜索结果提示 -->
+<div id="no-results" class="hidden text-center py-10 text-gray-500">
+    <i class="fas fa-search text-4xl mb-3"></i>
+    <p>没有找到匹配的游戏</p>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchInput = document.getElementById('game-search');
+        const gamesContainer = document.getElementById('games-container');
+        const noResults = document.getElementById('no-results');
+        const gameCards = document.querySelectorAll('.game-card');
+        
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase().trim();
+            let matchCount = 0;
+            
+            gameCards.forEach(card => {
+                const cardText = card.textContent.toLowerCase();
+                const isMatch = cardText.includes(searchTerm);
+                
+                if (isMatch || searchTerm === '') {
+                    card.style.display = '';
+                    matchCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            if (matchCount === 0 && searchTerm !== '') {
+                noResults.classList.remove('hidden');
+                gamesContainer.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                gamesContainer.classList.remove('hidden');
+            }
+        });
+        
+        searchInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                this.value = '';
+                this.dispatchEvent(new Event('input'));
+            }
+        });
+    });
+</script>
+
+<style>
+    #game-search:focus + div {
+        color: #3B82F6;
+    }
+    
+    .game-card {
+        transition: opacity 0.3s ease;
+    }
+</style>
         
 
         <div class="space-y-4">
@@ -1952,7 +2043,7 @@
 
 <a href="https://www.xiaohongshu.com/user/profile/6536d0960000000006006753" target="_blank" class="flex flex-col items-center">
   <div class="w-14 h-8 rounded-full flex items-center justify-center overflow-hidden" style="background-color: #FE2C55;">
-    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAIQ9mgvM-1yuw06v6Nxh-IGDepRhbmkAAKkGgACapuBVfCqp9ziLmplNgQ.png" class="w-8 h-8 object-contain" alt="小红书">
+    <img src="https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAIRLGgvgAbwNxSegRo3_2Rp9Phe7I33AAJIGwACapuBVQLAw9UZwp4zNgQ.png" class="w-8 h-8 object-contain" alt="小红书">
   </div>
   <span class="mt-1 text-xs">小红书</span>
 </a>
